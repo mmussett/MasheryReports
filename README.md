@@ -1,4 +1,7 @@
+# TIBCO API Management Report Scripts
 
+
+## Getting your APIM Platform API Key and Secret
 Steps to access Mashery V2/V3 APIs for TIBCO cloud accounts
 
 Each TIBCO cloud customer must use the serviceaccount user to access Mashery V2/V3 APIs.
@@ -11,9 +14,10 @@ Steps to acces Mashery V2/V3 using service account user:
 3. Now you are able to use and access Mashery V2/V3 APIs listed in our Developer Portal: https://developer.mashery.com/docs/read/mashery_api
 
 
-# MasheryReports
+## MasheryReports
 
-getEndpointCallTransformation - Get Call Transformation data for all endpoints.
-getEndpointSecurity - Get security details for endpoints.
-getCallsDeveloperActivityForService - Get Calls by Developer for a particular API Service
+* getEndpointCallTransformation - Get Call Transformation data for all endpoints.
+
+* getEndpointSecurity - Get security details for endpoints.
+* getCallsDeveloperActivityForService - Get Calls by Developer for a particular API Service
 
