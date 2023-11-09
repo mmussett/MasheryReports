@@ -252,12 +252,6 @@ function getMember() {
 	fi
 	
 	echo ${content}
-	#endpoints=$(echo "$content" | jq --arg service "$service" '.[] | select( .id | contains($service))')
-	
-	
-	
-	# Tab separated values, sort by API definition name then endpoint name
-	#echo $endpoints | jq -r '. | .name as $apiName | .id as $apiId | (.endpoints[] | { $apiName, $apiId, name, id, requestPathAlias, outboundRequestTargetPath, publicDomains, systemDomains,  inboundSslRequired, outboundTransportProtocol, allowMissingApiKey, systemDomainAuthentication}) |  .apiId + ","+ .id + "," + .apiName + "," + .name + "," + (.inboundSslRequired|tostring) + "://" + (.publicDomains|tostring) + .requestPathAlias + ","  + (.outboundTransportProtocol|tostring) + "://" + (.systemDomains|tostring) + .outboundRequestTargetPath + "," + (.inboundSslRequired|tostring) + "," + (.outboundTransportProtocol|tostring) + "," + (.allowMissingApiKey|tostring) + "," + (.systemDomainAuthentication.type|tostring)' | awk 'BEGIN {FS=OFS=","}; function subarray(c) {gsub("false","http",$c) gsub("true","https",$c) gsub("\\[\\{\\\"address\\\":\\\"","",$c) gsub("\\\"\\}\\]","",$c) gsub("\\[\\]"," ",$c) gsub("\\\"\\},\\{\\\"address\\\":\\\""," ",$c)} {subarray(5) subarray(6)} 1' | awk 'BEGIN {FS=OFS=","}; function inssl(c) {gsub("false","NO",$c) gsub("true","YES",$c)} {inssl(7)} 1' | awk 'BEGIN {FS=OFS=","}; function outssl(c) {gsub("https","YES",$c) gsub("http","NO",$c)} {outssl(8)} 1' | awk 'BEGIN {FS=OFS=","}; function noapikey(c) {gsub("true","YES",$c) gsub("false","NO",$c)} {noapikey(9)} 1'| awk 'BEGIN {FS=OFS=","}; function sda(c) {gsub("null","NO",$c) gsub("httpBasic","YES (HTTP-BA)",$c) gsub("clientSslCert","YES (SSL-CERT)",$c)} {sda(10)} 1'| sort -k3,3 -k4,4
 
 }
 
@@ -301,12 +295,6 @@ function getMemberApplications() {
 	fi
 	
 	echo ${content}
-	#endpoints=$(echo "$content" | jq --arg service "$service" '.[] | select( .id | contains($service))')
-	
-	
-	
-	# Tab separated values, sort by API definition name then endpoint name
-	#echo $endpoints | jq -r '. | .name as $apiName | .id as $apiId | (.endpoints[] | { $apiName, $apiId, name, id, requestPathAlias, outboundRequestTargetPath, publicDomains, systemDomains,  inboundSslRequired, outboundTransportProtocol, allowMissingApiKey, systemDomainAuthentication}) |  .apiId + ","+ .id + "," + .apiName + "," + .name + "," + (.inboundSslRequired|tostring) + "://" + (.publicDomains|tostring) + .requestPathAlias + ","  + (.outboundTransportProtocol|tostring) + "://" + (.systemDomains|tostring) + .outboundRequestTargetPath + "," + (.inboundSslRequired|tostring) + "," + (.outboundTransportProtocol|tostring) + "," + (.allowMissingApiKey|tostring) + "," + (.systemDomainAuthentication.type|tostring)' | awk 'BEGIN {FS=OFS=","}; function subarray(c) {gsub("false","http",$c) gsub("true","https",$c) gsub("\\[\\{\\\"address\\\":\\\"","",$c) gsub("\\\"\\}\\]","",$c) gsub("\\[\\]"," ",$c) gsub("\\\"\\},\\{\\\"address\\\":\\\""," ",$c)} {subarray(5) subarray(6)} 1' | awk 'BEGIN {FS=OFS=","}; function inssl(c) {gsub("false","NO",$c) gsub("true","YES",$c)} {inssl(7)} 1' | awk 'BEGIN {FS=OFS=","}; function outssl(c) {gsub("https","YES",$c) gsub("http","NO",$c)} {outssl(8)} 1' | awk 'BEGIN {FS=OFS=","}; function noapikey(c) {gsub("true","YES",$c) gsub("false","NO",$c)} {noapikey(9)} 1'| awk 'BEGIN {FS=OFS=","}; function sda(c) {gsub("null","NO",$c) gsub("httpBasic","YES (HTTP-BA)",$c) gsub("clientSslCert","YES (SSL-CERT)",$c)} {sda(10)} 1'| sort -k3,3 -k4,4
 
 }
 
@@ -319,10 +307,9 @@ function main() {
 	setopts $*
 
 	# Get a token
-
-
-
 	local token=$(getToken $AREA)
+
+	# Get all member identifiers
 	local members=$(getAllMembers $token)
 	local totalMembers=$(echo "${members}" | jq -r '. | length')
 
